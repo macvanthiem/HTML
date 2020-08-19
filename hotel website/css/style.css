@@ -113,6 +113,10 @@ p {
     padding-top: 20px;
 }
 
+.mobile-nav-icon {
+    display: none;
+}
+
 #navbar ul {
     list-style: none;
     float: right;
