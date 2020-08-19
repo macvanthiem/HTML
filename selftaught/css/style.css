@@ -14,6 +14,10 @@ html {
     text-rendering: optimizeLegibility;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 ul {
     list-style: none;
 }
@@ -154,6 +158,38 @@ header {
     width: 1140px;
 }
 
+.sticky {
+    background: rgba(2, 33, 64, 0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 900;
+    width: 100%;
+}
+
+.sticky .logo {
+    width: 250px;
+    margin-top: -40px;
+    margin-bottom: -60px;
+}
+
+.sticky .main-nav {
+    margin-top: 35px;
+}
+
+.mobile-nav-icon {
+    font-size: 200%;
+    color: #6b95bd;
+    position: absolute;
+    top: 55px;
+    right: 80px;
+    display: none;
+}
+
+.sticky .mobile-nav-icon {
+    top: 25px;
+}
+
 /* About Us */
 
 #about {
@@ -206,8 +242,9 @@ header {
 /* Products */
 
 #products {
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     padding: 30px;
+    padding-bottom: 50px;
     background: #f4f4f4;
 }
 
@@ -243,7 +280,6 @@ header {
     margin-left: 20%;
     margin-top: 20px;
     margin-bottom: 20px;
-
 }
 
 .product-box ul li i {

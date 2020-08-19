@@ -7,16 +7,20 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Lato" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/queries.css">
 </head>
 <body>
-    <header>
-        <a href="index.html"><img class="logo" src="img/logo.png" alt="Selftaught"></a>
-        <ul class="main-nav">
-            <li><a href="#">How clients think</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
+    <header id="home">
+        <nav class="sticky">
+            <a href="#home"><img class="logo" src="img/logo.png" alt="Selftaught"></a>
+            <ul class="main-nav">
+                <li><a href="#testimonials">How clients think</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <i class="fas fa-bars mobile-nav-icon"></i>
+        </nav>
         <div class="clearfix"></div>
         <div class="row heading-main-box">
             <h1>
@@ -225,5 +229,8 @@
         <p>Copyright &copy; 2020 by SELFTAUGHT team</p>
     </footer>
 
+    <script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
