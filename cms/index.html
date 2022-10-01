@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>CMS</title>
+    <style>
+        .cms-root {
+            width: 100%;
+            list-style: none;
+        }
+
+        .cms-root li {
+            width: 100%;
+            padding: 20px;
+            border: 1px dotted gray;
+            margin-bottom: 30px;
+        }
+
+        .cms-root li input[type=text] {
+            width: 100%;
+            border: none;
+        }
+
+        .cms-root li textarea {
+            width: 100%;
+            border: none;
+        }
+
+        .cms-root li img {
+            width: 50%;
+            margin-top: 15px;
+        }
+
+        .preview-box {
+            text-align: center;
+        }
+
+        .cms-root li input[type=text]:focus, .cms-root li textarea:focus {
+            outline: none;
+        }
+
+        /* ============ desktop view ============ */
+        @media all and (min-width: 992px) {
+            .dropdown-menu li {
+                position: relative;
+            }
+            .nav-item .submenu {
+                display: none;
+                position: absolute;
+                left: 100%;
+                top: -7px;
+            }
+            .nav-item .submenu-left {
+                right: 100%;
+                left: auto;
+            }
+            .dropdown-menu > li:hover {
+                background-color: #f1f1f1;
+            }
+            .dropdown-menu > li:hover > .submenu {
+                display: block;
+            }
+        }
+        /* ============ desktop view .end// ============ */
+
+        /* ============ small devices ============ */
+        @media (max-width: 991px) {
+            .dropdown-menu .dropdown-menu {
+                margin-left: 0.7rem;
+                margin-right: 0.7rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+        /* ============ small devices .end// ============ */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Thêm bài viết</h1>
+        <form action="" enctype="multipart/form-data" method="POST">
+            <ul id="cms-root" class="render-list cms-root">
+            
+            </ul>
+            
+            <input type="hidden" name="order" id="order" value="">
+        </form>
+
+        <!-- <div class="btn-group dropend">
+            <button type="button" class="btn btn-outline-info btn-sm dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Thêm nội dung
+            </button>
+            <ul class="dropdown-menu">
+                <li class="dropdown-item" onclick="addElement('title')">Đề mục</li>
+                <li class="dropdown-item" onclick="addElement('text')">Văn bản</li>
+                <li class="dropdown-item" onclick="addElement('image')">Hình ảnh</li>
+                <li class="dropdown-item">Bảng</li>
+            </ul>
+        </div> -->
+        <ul class="nav justify-content-start fs-5 mt-3">
+            <li class="nav-item text-center dropend" id="myDropdown">
+                <a class="nav-link text-blue dropdown-toggle" href="#" data-bs-toggle="dropdown">Thêm nội dung</a>
+                <ul class="dropdown-menu py-0">
+                    <li class="border-bottom border-2">
+                        <a class="dropdown-item" href="#" onclick="addElement('title')">Đề mục</a>
+                    </li>
+                    <li class="border-bottom border-2">
+                        <a class="dropdown-item" href="#" onclick="addElement('text')">Văn bản</a>
+                    </li>
+                    <li class="border-bottom border-2">
+                        <a class="dropdown-item" href="#" onclick="addElement('image')">Hình ảnh</a>
+                    </li>
+                    <li class="border-bottom border-2">
+                        <a class="dropdown-item" href="#">Bảng &raquo;</a>
+                        <ul class="submenu dropdown-menu py-0">
+                            <li class="border-bottom border-2">
+                                <div class="d-flex justify-content-around align-items-center">
+                                    <input type="number" name="" id="cols" value="3" style="width: 45px;">
+                                    <p>x</p>
+                                    <input type="number" name="" id="rows" value="3" style="width: 45px;">
+                                    <button class="btn btn-sm btn-primary" onclick="addElement('table')">OK</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // make it as accordion for smaller screens
+            if (window.innerWidth < 992) {
+                // close all inner dropdowns when parent is closed
+                document.querySelectorAll('.navbar .dropdown').forEach(function (everydropdown) {
+                    everydropdown.addEventListener('hidden.bs.dropdown', function () {
+                        // after dropdown is hidden, then find all submenus
+                        this.querySelectorAll('.submenu').forEach(function (everysubmenu) {
+                            // hide every submenu as well
+                            everysubmenu.style.display = 'none';
+                        });
+                    })
+                });
+                document.querySelectorAll('.dropdown-menu a').forEach(function (element) {
+                    element.addEventListener('click', function (e) {
+                        let nextEl = this.nextElementSibling;
+                        if (nextEl && nextEl.classList.contains('submenu')) {
+                            // prevent opening link if link needs to open dropdown
+                            e.preventDefault();
+                            if (nextEl.style.display == 'block') {
+                                nextEl.style.display = 'none';
+                            } else {
+                                nextEl.style.display = 'block';
+                            }
+                        }
+                    });
+                })
+            }
+            // end if innerWidth
+        });
+        // DOMContentLoaded  end
+        $(document).ready(function () {
+
+            $("ul.render-list").sortable({
+                tolerance: "pointer",
+            });
+            $(".image-link").css("cursor", "move");
+
+            // $("#saveReorder").click(function (e) {
+            //     if (!$("#saveReorder i").length) {
+            //         $("ul.render-list").sortable("destroy");
+            //         var h = [];
+            //         $("ul.render-list li").each(function () {
+            //             h.push($(this).attr("id").substr(9));
+            //         });
+            //         document.getElementById("render_list").value = " " + h + "";
+            //     }
+            // });
+        });
+        
+        let content = [];
+
+        function randomString(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        function titleInput(name) {
+            let input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('name', name);
+            return input;
+        }
+
+        function textInput(name) {
+            let input = document.createElement('textarea');
+            input.setAttribute('rows', 10);
+            input.setAttribute('name', name);
+            return input;
+        }
+
+        function imageInput(name) {
+            let div = document.createElement('div');
+            div.classList.add('w-100');
+            let input = document.createElement('input');
+            const idPreview = randomString(10);
+            input.setAttribute('type', 'file');
+            input.setAttribute('id', name);
+            input.setAttribute('name', name);
+            input.setAttribute('accept', 'image/*');
+            input.setAttribute('onchange', `preview(${name}, ${idPreview})`);
+            div.appendChild(input);
+            let preview = document.createElement('div');
+            preview.setAttribute('id', idPreview); 
+            preview.classList.add('preview-box');
+            div.appendChild(preview);
+            return div;
+        }
+
+        function preview(imageInput, previewDiv) {
+            let files = imageInput.files;
+            // console.log(imageInput);
+            if (files.length > 0) {
+                let file = files[0];
+                let img = document.createElement('img');
+                let fileReader = new FileReader();
+                fileReader.onload = function (fileLoaderEvent) {
+                    let src = fileLoaderEvent.target.result;
+                    img.setAttribute('src', src);
+                }
+                fileReader.readAsDataURL(file);
+                previewDiv.appendChild(img);
+            }
+        }
+
+        function tableInput(name, ) {
+            
+        }
+
+
+
+        function addElement(type) {
+            console.log("type: " + type);
+            let root = document.getElementById('cms-root');
+            let index = content.length;
+            const nameInput = randomString(10);
+            const idSort = randomString(10);
+            let li = document.createElement('li');
+            li.setAttribute('id', idSort);
+            li.classList.add('ui-sortable-handle');
+            let a = document.createElement('a');
+            a.classList.add('image-link');
+            li.appendChild(a);
+            root.appendChild(li); 
+            
+             content[index] = {
+                type: type,
+                idSort: idSort
+            }
+
+            let element = null;
+
+            switch (type) {
+                case 'title':
+                    element = titleInput(nameInput);             
+                    break;
+                
+                case 'text':
+                    element = textInput(nameInput);
+                    break;
+
+                case 'image': 
+                    element = imageInput(nameInput);
+                    break;    
+                
+                case 'table': 
+                    let cols = document.getElementById('cols').value;
+                    let rows = document.getElementById('rows').value;
+                    element = tableInput(nameInput, cols, rows);
+                    break;
+                default:
+                    break;
+            }
+
+            a.appendChild(element);
+            console.log(content);
+        }
+    </script>
+</body>
+
+</html>
